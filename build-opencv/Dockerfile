@@ -1,5 +1,5 @@
 #
-# Build OpenCV 4.0.1 with Python3 for aarch64
+# Build OpenCV 4.0.1 with Python3 for aarch64/x86_64
 #
 # Ed.Swarthout@NXP.com
 #
@@ -57,7 +57,7 @@ RUN python3 -m pip install -U \
     termcolor \
     werkzeug
 
-# pandas needs numpy to already be installed
+# pandas needs numpy to be already installed
 RUN python3 -m pip install -U \
     pandas
 
@@ -82,8 +82,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     liblapack3 \
     libatlas3-base
 
-ENV opencv_dir=/home/packages/opencv arch=aarch64 opencv_ver=4.0.1
-ENV bdir=$opencv_dir/$arch
+ENV opencv_dir=/home/packages/opencv opencv_ver=4.0.1
+ENV bdir=$opencv_dir/build
 
 RUN mkdir -p $opencv_dir/ && cd $opencv_dir && \
     git clone --depth 1 https://github.com/opencv/opencv.git -b $opencv_ver
