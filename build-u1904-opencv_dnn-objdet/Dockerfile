@@ -93,7 +93,7 @@ RUN mkdir -p /home/packages/imutils && cd /home/packages/imutils && \
 
 # --- runtime image ---
 
-FROM u1904-python3 as u1904-run-opencv_dnn-objdet
+FROM u1904-python3 as u1904-run-opencv_dnn-base
 
 COPY --from=u1904-opencv_dnn-builder-4.1.0 /opencv_dnn-4.1.0.deb.tar /opencv/opencv_dnn.deb.tar
 RUN cd /opencv && tar -xf opencv_dnn.deb.tar && \
@@ -116,12 +116,11 @@ COPY run.sh /
 
 ENV CAMERA=opencv_dnn_2objdet
 
+FROM u1904-run-opencv_dnn-base as u1904-run-opencv_dnn-objdet
+
 RUN cd /root && \
     git clone --depth 1 https://github.com/Ed-Swarthout-NXP/flask-video-streaming.git -b NXP-opencv_dnn
 
 WORKDIR "/root/flask-video-streaming"
 
 CMD gunicorn3 --threads 5 --workers 1 --bind 0.0.0.0:$CAMERA_PORT app:app
-
-
-
