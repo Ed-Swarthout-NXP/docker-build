@@ -12,11 +12,16 @@
 
 FROM build-tf_nightly
 
+# for keras utils plot_model add graphviz, pydot and pydotplus
+# needed for example notebooks: curl unzip wget
+
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
     file \
     fonts-freefont-ttf \
     git \
+    graphviz \
     gunicorn3 \
     jupyter-notebook \
     libc++1 \
@@ -40,6 +45,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-pandas \
     python3-pil \
     python3-pip \
+    python3-pydot \
+    python3-pydotplus \
     python3-seaborn \
     python3-six \
     python3-socketio-client \
@@ -47,7 +54,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-wheel \
     python3-widgetsnbextension \
     python3-yaml \
-    python3-zmq
+    python3-zmq \
+    unzip \
+    wget
 
 RUN python3 -m pip install -U \
     absl-py \
@@ -80,9 +89,6 @@ COPY jupyter_notebook_config.py /root/.jupyter/
 
 CMD ["jupyter", "notebook", "--allow-root", "--no-browser" ]
 
-# Access tensorflow tutorials with:
-# http://localhost:8888/notebooks/tutorials/keras/index.ipynb
-
 # cleanup
 #RUN rm -rf /root/.cache/pip; rm -f /etc/apt/apt.conf.d/00aptproxy; rm -rf /var/lib/apt/lists
 
@@ -94,3 +100,6 @@ RUN cd /root && \
     git clone --depth 1 https://github.com/Ed-Swarthout-NXP/flask-video-streaming.git -b NXP-opencv_dnn
 
 WORKDIR "/"
+
+# Access tensorflow tutorials with:
+# http://ls1046afrwy:8888/notebooks/notebook/site/en/tutorials/keras/index.ipynb
