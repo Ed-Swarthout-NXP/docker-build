@@ -10,7 +10,7 @@
 # docker run --name full-tf_nightly --net host --privileged -v /home/packages/sw/ml/tensorflow/models:/models -v /home/packages:/home/packages -v /home/packages/model/keras:/root/.keras --rm -it edswarthoutnxp/full-tf_nightly
 # echo 192.168.1.65 ubuntu-apt-cacher-ng >> /etc/hosts
 
-FROM build-tf_nightly
+FROM edswarthoutnxp/build-tf_nightly
 
 # for keras utils plot_model add graphviz, pydot and pydotplus
 # needed for example notebooks: curl unzip wget
@@ -70,7 +70,7 @@ RUN python3 -m pip install -U \
     setuptools \
     wrapt
 
-#COPY --from=build-tf_nightly /tf_nightly-1.14.0-cp37-cp37m-linux_aarch64.whl tensorflow_hub /
+#COPY --from=edswarthoutnxp/build-tf_nightly /tf_nightly-1.14.0-cp37-cp37m-linux_aarch64.whl tensorflow_hub /
 RUN python3 -m pip install /tensorflow_pkg/tf_nightly-1.14.0-cp37-cp37m-linux_aarch64.whl tensorflow_hub
 
 # set flags to enable xla
