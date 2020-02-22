@@ -1,7 +1,0 @@
-# use a apt-cacher-ng proxy for packages
-# to use, add correct IP address to /etc/hosts for ubuntu-apt-cacher-ng
-Acquire::http::Proxy "http://ubuntu-apt-cacher-ng:3142";
-
-#exclusions:
-Acquire::HTTP::Proxy::download.docker.com "DIRECT";
-Acquire::HTTP::Proxy::download.oracle.com "DIRECT";
