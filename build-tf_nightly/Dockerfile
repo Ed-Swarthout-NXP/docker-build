@@ -11,7 +11,7 @@
 # docker build --add-host=ubuntu-apt-cacher-ng:192.168.1.65 -t build-tf_nightly .
 # stages docker build --add-host=ubuntu-apt-cacher-ng:192.168.1.65
 
-# docker run -it --name build-tf_nightly -v /home/packages/model:/home/packages/model -v /home/packages/model/keras:/root/.keras build-tf_nightly
+# docker run -it --name build-tf_nightly -v /home/packages:/home/packages -v /home/packages/model/keras:/root/.keras build-tf_nightly
 # echo 192.168.1.65 ubuntu-apt-cacher-ng >> /etc/hosts
 
 #ARG ARCH=aarch64
@@ -91,4 +91,5 @@ RUN bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package
 RUN ./bazel-bin/tensorflow/tools/pip_package/build_pip_package --nightly_flag /tensorflow_pkg
 
 # Grab wheel with:
-# docker cp /tensorflow_pkg/tf_nightly-1.14.9-cp37-cp37m-linux_${ARCH}.whl .
+# docker cp ${cid1}:/tensorflow_pkg/tf_nightly-1.14.0-cp37-cp37m-linux_${ARCH}.whl .
+# docker cp ${cid1}:/tensorflow_pkg/tf_nightly-1.14.0-cp37-cp37m-linux_aarch64.whl .

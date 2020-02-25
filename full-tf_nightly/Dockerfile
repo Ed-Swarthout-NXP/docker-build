@@ -70,6 +70,15 @@ RUN python3 -m pip install -U \
     setuptools \
     wrapt
 
+# install OpenCV
+COPY --from=u1904-opencv_dnn-builder-4.1.0 /opencv_dnn-4.1.0.deb.tar /opencv/opencv_dnn.deb.tar
+RUN cd /opencv && tar -xf opencv_dnn.deb.tar && \
+    dpkg -i \
+    OpenCV-4.1.0-*-libs.deb \
+    OpenCV-4.1.0-*-licenses.deb \
+    OpenCV-4.1.0-*-python.deb && \
+    rm -rf /opencv
+
 #COPY --from=edswarthoutnxp/build-tf_nightly /tf_nightly-1.14.0-cp37-cp37m-linux_aarch64.whl tensorflow_hub /
 RUN python3 -m pip install /tensorflow_pkg/tf_nightly-1.14.0-cp37-cp37m-linux_aarch64.whl tensorflow_hub
 
@@ -87,6 +96,7 @@ ADD docs-site-en-notebooks.tgz /notebook
 # Allow remote access and use login password
 COPY jupyter_notebook_config.py /root/.jupyter/
 
+# jupyter notebook --allow-root --no-browser
 CMD ["jupyter", "notebook", "--allow-root", "--no-browser" ]
 
 # cleanup
